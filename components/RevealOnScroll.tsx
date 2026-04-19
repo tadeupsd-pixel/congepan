@@ -6,11 +6,17 @@ type Props = {
   children: React.ReactNode;
   className?: string;
   delay?: number;
-  as?: keyof JSX.IntrinsicElements;
+  as?: React.ElementType;
   id?: string;
 };
 
-export function RevealOnScroll({ children, className = '', delay = 0, as = 'div', id }: Props) {
+export function RevealOnScroll({
+  children,
+  className = '',
+  delay = 0,
+  as: Tag = 'div',
+  id,
+}: Props) {
   const ref = useRef<HTMLElement | null>(null);
   const [visible, setVisible] = useState(false);
 
@@ -34,12 +40,10 @@ export function RevealOnScroll({ children, className = '', delay = 0, as = 'div'
     return () => observer.disconnect();
   }, []);
 
-  const Tag = as as any;
-
   return (
     <Tag
       id={id}
-      ref={ref}
+      ref={ref as any}
       className={`${className} reveal-block${visible ? ' is-visible' : ''}`}
       style={{ transitionDelay: `${delay}ms` }}
     >
