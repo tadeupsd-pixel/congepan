@@ -4,6 +4,8 @@ import { buildWhatsAppUrl } from '@/lib/utils';
 import { TrackVisit } from '@/components/TrackVisit';
 import { HeroCarousel } from '@/components/HeroCarousel';
 import { SiteHeader } from '@/components/SiteHeader';
+import { RevealOnScroll } from '@/components/RevealOnScroll';
+import { FloatingWhatsApp } from '@/components/FloatingWhatsApp';
 
 export default async function HomePage() {
   const content = await getSiteContent();
@@ -26,6 +28,7 @@ export default async function HomePage() {
       }}
     >
       <TrackVisit />
+      <FloatingWhatsApp number={content.whatsapp_number} message={content.whatsapp_message} />
       <div className="congepan-frame">
         <SiteHeader logoUrl={content.hero_logo_url} brandName={content.brand_name} primaryColor={content.primary_color} />
 
@@ -39,15 +42,15 @@ export default async function HomePage() {
           secondaryColor={content.secondary_color}
         />
 
-        <section className="zen-intro-band">
+        <RevealOnScroll as="section" className="zen-intro-band" delay={40}>
           <div className="zen-band-line" />
           <p>
             Estrutura inspirada em landing premium, com navegação fluida, blocos fortes, visual elegante e texto 100% editável no painel.
           </p>
           <div className="zen-band-line" />
-        </section>
+        </RevealOnScroll>
 
-        <section className="card-section" id="linhas">
+        <RevealOnScroll as="section" className="card-section" id="linhas" delay={80}>
           <div className="section-heading compact">
             <span>Linhas principais</span>
             <h2>Organização visual forte para vender melhor</h2>
@@ -61,9 +64,9 @@ export default async function HomePage() {
               </article>
             ))}
           </div>
-        </section>
+        </RevealOnScroll>
 
-        <section className="about-section" id="sobre">
+        <RevealOnScroll as="section" className="about-section" id="sobre" delay={120}>
           <div className="about-grid">
             <div className="about-copy">
               <span className="section-eyebrow">Tema com pegada japonesa</span>
@@ -89,9 +92,9 @@ export default async function HomePage() {
               </div>
             </div>
           </div>
-        </section>
+        </RevealOnScroll>
 
-        <section className="journey-section">
+        <RevealOnScroll as="section" className="journey-section" delay={160}>
           <div className="section-heading">
             <span>Como o site navega</span>
             <h2>Uma página, leitura clara e descida natural</h2>
@@ -113,9 +116,9 @@ export default async function HomePage() {
               <p>O usuário desce, entende a proposta e já encontra o WhatsApp com destaque.</p>
             </article>
           </div>
-        </section>
+        </RevealOnScroll>
 
-        <section className="cta-section" id="contato">
+        <RevealOnScroll as="section" className="cta-section" id="contato" delay={200}>
           <div className="cta-card">
             <div className="cta-copy">
               <span className="section-eyebrow light">Contato direto</span>
@@ -127,9 +130,9 @@ export default async function HomePage() {
               {content.cta_button_text}
             </a>
           </div>
-        </section>
+        </RevealOnScroll>
 
-        <footer className="site-footer" id="privacidade">
+        <RevealOnScroll as="footer" className="site-footer" id="privacidade" delay={240}>
           <div className="footer-logo-wrap">
             {content.hero_logo_url ? (
               <Image src={content.hero_logo_url} alt={content.brand_name} width={320} height={110} style={{ width: '100%', maxWidth: 250, height: 'auto', objectFit: 'contain' }} />
@@ -138,7 +141,7 @@ export default async function HomePage() {
           <div className="footer-divider" />
           <p className="footer-main-text">{content.footer_text}</p>
           <p className="footer-privacy">{content.privacy_policy_text}</p>
-        </footer>
+        </RevealOnScroll>
       </div>
     </main>
   );
