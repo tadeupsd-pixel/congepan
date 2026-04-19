@@ -12,6 +12,20 @@ type Props = {
   secondaryColor: string;
 };
 
+function highlightTitle(title: string) {
+  const target = 'melhores padarias';
+  const idx = title.toLowerCase().indexOf(target);
+  if (idx === -1) return title;
+
+  return (
+    <>
+      {title.slice(0, idx)}
+      <span className="hero-highlight">{title.slice(idx, idx + target.length)}</span>
+      {title.slice(idx + target.length)}
+    </>
+  );
+}
+
 export function HeroCarousel({ images, logoUrl, title, bullets, primaryColor, secondaryColor }: Props) {
   const safeImages = useMemo(() => images.filter(Boolean), [images]);
   const [index, setIndex] = useState(0);
@@ -33,14 +47,14 @@ export function HeroCarousel({ images, logoUrl, title, bullets, primaryColor, se
         <button type="button" className="hero-arrow hero-arrow-left" onClick={previous} aria-label="Banner anterior">‹</button>
         <button type="button" className="hero-arrow hero-arrow-right" onClick={next} aria-label="Próximo banner">›</button>
         <div className="hero-media-wrap">
-          <Image src={current} alt="Banner principal" fill priority sizes="(max-width: 900px) 100vw, 1120px" className="hero-media" />
+          <Image src={current} alt="Banner principal" fill priority sizes="(max-width: 900px) 100vw, 760px" className="hero-media" />
           <div className="hero-overlay" />
           <div className="hero-copy">
-            <h1>{title}</h1>
+            <h1>{highlightTitle(title)}</h1>
             <div className="hero-bullets-panel">
               {bullets.map((bullet) => (
                 <div className="hero-bullet" key={bullet}>
-                  <span className="hero-bullet-check" style={{ borderColor: secondaryColor, color: secondaryColor }}>✓</span>
+                  <span className="hero-bullet-check" style={{ color: secondaryColor }}>✓</span>
                   <span>{bullet}</span>
                 </div>
               ))}
