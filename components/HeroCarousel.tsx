@@ -1,0 +1,63 @@
+'use client';
+
+import { useMemo, useState } from 'react';
+import Image from 'next/image';
+
+type Props = {
+  images: string[];
+  logoUrl?: string | null;
+  title: string;
+  bullets: string[];
+  primaryColor: string;
+  secondaryColor: string;
+};
+
+export function HeroCarousel({ images, logoUrl, title, bullets, primaryColor, secondaryColor }: Props) {
+  const safeImages = useMemo(() => images.filter(Boolean), [images]);
+  const [index, setIndex] = useState(0);
+  const current = safeImages[index] || '/congepan-banner-1.png';
+
+  function previous() {
+    if (safeImages.length <= 1) return;
+    setIndex((currentIndex) => (currentIndex - 1 + safeImages.length) % safeImages.length);
+  }
+
+  function next() {
+    if (safeImages.length <= 1) return;
+    setIndex((currentIndex) => (currentIndex + 1) % safeImages.length);
+  }
+
+  return (
+    <section className="hero-visual-shell">
+      <div className="hero-visual-card">
+        <button type="button" className="hero-arrow hero-arrow-left" onClick={previous} aria-label="Banner anterior">‹</button>
+        <button type="button" className="hero-arrow hero-arrow-right" onClick={next} aria-label="Próximo banner">›</button>
+        <div className="hero-media-wrap">
+          <Image src={current} alt="Banner principal" fill priority sizes="(max-width: 900px) 100vw, 1120px" className="hero-media" />
+          <div className="hero-overlay" />
+          <div className="hero-copy">
+            <h1>{title}</h1>
+            <div className="hero-bullets-panel">
+              {bullets.map((bullet) => (
+                <div className="hero-bullet" key={bullet}>
+                  <span className="hero-bullet-check" style={{ borderColor: secondaryColor, color: secondaryColor }}>✓</span>
+                  <span>{bullet}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="hero-floating-logo">
+            <div className="hero-floating-logo-inner">
+              {logoUrl ? <Image src={logoUrl} alt="Logo" width={440} height={200} style={{ width: '100%', height: 'auto', objectFit: 'contain' }} /> : null}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="hero-dots" aria-label="Indicadores do carrossel">
+        {safeImages.map((item, dotIndex) => (
+          <button key={item + dotIndex} type="button" className={dotIndex === index ? 'hero-dot active' : 'hero-dot'} style={dotIndex === index ? { background: primaryColor } : undefined} onClick={() => setIndex(dotIndex)} aria-label={`Ir para banner ${dotIndex + 1}`} />
+        ))}
+      </div>
+    </section>
+  );
+}

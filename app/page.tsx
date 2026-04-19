@@ -2,73 +2,29 @@ import Image from 'next/image';
 import { getSiteContent } from '@/lib/server-data';
 import { buildWhatsAppUrl } from '@/lib/utils';
 import { TrackVisit } from '@/components/TrackVisit';
+import { HeroCarousel } from '@/components/HeroCarousel';
+import { SiteHeader } from '@/components/SiteHeader';
 
 export default async function HomePage() {
   const content = await getSiteContent();
   const whatsappUrl = buildWhatsAppUrl(content.whatsapp_number, content.whatsapp_message);
+  const cards = [
+    { icon: '🥖', title: content.card_1_title, text: content.card_1_text },
+    { icon: '🍞', title: content.card_2_title, text: content.card_2_text },
+    { icon: '🚚', title: content.card_3_title, text: content.card_3_text }
+  ];
 
   return (
-    <main className="site-shell" style={{ ['--accent' as string]: content.accent_color, ['--brand' as string]: content.primary_color }}>
+    <main id="topo" className="congepan-shell" style={{ ['--brand' as string]: content.primary_color, ['--gold' as string]: content.secondary_color, ['--accent' as string]: content.accent_color }}>
       <TrackVisit />
-
-      <section className="hero">
-        <div className="container">
-          <div className="hero-card" style={{ background: `linear-gradient(135deg, ${content.primary_color}dd 0%, ${content.secondary_color}dd 100%)` }}>
-            <div className="hero-grid">
-              <div>
-                <span className="eyebrow">Ponto congelado • atendimento direto</span>
-                <h1>{content.headline}</h1>
-                <p className="lead">{content.subheadline}</p>
-
-                <div className="action-row">
-                  <a className="button button-primary" style={{ background: content.accent_color }} href={whatsappUrl} target="_blank" rel="noreferrer">
-                    Fale conosco no WhatsApp
-                  </a>
-                  <a className="button button-secondary" href="#privacidade">
-                    Política de privacidade
-                  </a>
-                </div>
-              </div>
-
-              <div className="logo-box">
-                {content.hero_logo_url ? (
-                  <Image src={content.hero_logo_url} alt={content.brand_name} width={640} height={640} priority style={{ objectFit: 'contain', width: '100%', maxHeight: 360 }} />
-                ) : (
-                  <div className="logo-fallback">{content.brand_name}</div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="metrics">
-        <div className="container">
-          <div className="metric-grid">
-            <div className="metric-card hero-card">
-              <span className="metric-label">{content.info_card_1_title}</span>
-              <div className="metric-value">{content.info_card_1_value}</div>
-            </div>
-            <div className="metric-card hero-card">
-              <span className="metric-label">{content.info_card_2_title}</span>
-              <div className="metric-value">{content.info_card_2_value}</div>
-            </div>
-            <div className="metric-card hero-card">
-              <span className="metric-label">{content.info_card_3_title}</span>
-              <div className="metric-value">{content.info_card_3_value}</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="footer-note" id="privacidade">
-        <div className="container">
-          <div className="hero-card">
-            <strong>Privacidade e segurança</strong>
-            <p>{content.privacy_policy_text}</p>
-          </div>
-        </div>
-      </section>
+      <div className="congepan-frame">
+        <SiteHeader logoUrl={content.hero_logo_url} brandName={content.brand_name} primaryColor={content.primary_color} />
+        <HeroCarousel images={[content.banner_1_url || '', content.banner_2_url || '', content.banner_3_url || '']} logoUrl={content.hero_logo_url} title={content.headline} bullets={[content.bullet_1, content.bullet_2, content.bullet_3]} primaryColor={content.primary_color} secondaryColor={content.secondary_color} />
+        <section className="card-section"><div className="card-grid">{cards.map((card) => <article key={card.title} className="feature-card"><div className="feature-icon">{card.icon}</div><h2>{card.title}</h2><p>{card.text}</p></article>)}</div></section>
+        <section className="about-section" id="sobre"><div className="section-paper"><h2>{content.about_title}</h2><p>{content.about_text}</p></div></section>
+        <section className="cta-section" id="contato"><div className="cta-card"><h2>{content.cta_title}</h2><p>{content.cta_text}</p><a href={whatsappUrl} target="_blank" rel="noreferrer" className="whatsapp-button"><span className="whatsapp-icon">🟢</span>{content.cta_button_text}</a></div></section>
+        <footer className="site-footer" id="privacidade"><div className="footer-logo-wrap">{content.hero_logo_url ? <Image src={content.hero_logo_url} alt={content.brand_name} width={320} height={110} style={{ width: '100%', maxWidth: 260, height: 'auto', objectFit: 'contain' }} /> : null}</div><p className="footer-main-text">{content.footer_text}</p><p className="footer-privacy">{content.privacy_policy_text}</p></footer>
+      </div>
     </main>
   );
 }
