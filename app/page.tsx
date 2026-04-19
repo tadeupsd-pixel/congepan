@@ -13,6 +13,7 @@ export default async function HomePage() {
     { icon: '🍞', title: content.card_2_title, text: content.card_2_text },
     { icon: '🚚', title: content.card_3_title, text: content.card_3_text }
   ];
+  const bullets = [content.bullet_1, content.bullet_2, content.bullet_3].filter(Boolean);
 
   return (
     <main
@@ -32,17 +33,30 @@ export default async function HomePage() {
           images={[content.banner_1_url || '', content.banner_2_url || '', content.banner_3_url || '']}
           logoUrl={content.hero_logo_url}
           title={content.headline}
-          bullets={[content.bullet_1, content.bullet_2, content.bullet_3]}
+          subtitle={content.subheadline}
+          bullets={bullets}
           primaryColor={content.primary_color}
           secondaryColor={content.secondary_color}
         />
 
-        <section className="card-section">
+        <section className="zen-intro-band">
+          <div className="zen-band-line" />
+          <p>
+            Estrutura inspirada em landing premium, com navegação fluida, blocos fortes, visual elegante e texto 100% editável no painel.
+          </p>
+          <div className="zen-band-line" />
+        </section>
+
+        <section className="card-section" id="linhas">
+          <div className="section-heading compact">
+            <span>Linhas principais</span>
+            <h2>Organização visual forte para vender melhor</h2>
+          </div>
           <div className="card-grid">
             {cards.map((card, index) => (
               <article key={card.title} className={`feature-card feature-card-${index + 1}`}>
                 <div className="feature-icon">{card.icon}</div>
-                <h2>{card.title}</h2>
+                <h3>{card.title}</h3>
                 <p>{card.text}</p>
               </article>
             ))}
@@ -50,16 +64,64 @@ export default async function HomePage() {
         </section>
 
         <section className="about-section" id="sobre">
-          <div className="section-paper">
-            <h2>{content.about_title}</h2>
-            <p>{content.about_text}</p>
+          <div className="about-grid">
+            <div className="about-copy">
+              <span className="section-eyebrow">Tema com pegada japonesa</span>
+              <h2>{content.about_title}</h2>
+              <p>{content.about_text}</p>
+              <div className="about-mini-list">
+                {bullets.map((bullet) => (
+                  <div key={bullet} className="about-mini-item">
+                    <span>•</span>
+                    <span>{bullet}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="about-visual">
+              <div className="about-visual-card">
+                <div className="about-stamp">和</div>
+                {content.banner_2_url ? (
+                  <Image src={content.banner_2_url} alt="Visual da marca" fill className="about-visual-image" sizes="(max-width: 900px) 100vw, 420px" />
+                ) : null}
+                <div className="about-visual-overlay" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="journey-section">
+          <div className="section-heading">
+            <span>Como o site navega</span>
+            <h2>Uma página, leitura clara e descida natural</h2>
+          </div>
+          <div className="journey-grid">
+            <article className="journey-card">
+              <strong>01</strong>
+              <h3>Impacto no topo</h3>
+              <p>Logo centralizada, banner forte, frase principal e prova visual logo de cara.</p>
+            </article>
+            <article className="journey-card">
+              <strong>02</strong>
+              <h3>Blocos objetivos</h3>
+              <p>Os cards resumem o que importa e deixam a leitura rápida no celular e no desktop.</p>
+            </article>
+            <article className="journey-card">
+              <strong>03</strong>
+              <h3>Fechamento no contato</h3>
+              <p>O usuário desce, entende a proposta e já encontra o WhatsApp com destaque.</p>
+            </article>
           </div>
         </section>
 
         <section className="cta-section" id="contato">
           <div className="cta-card">
-            <h2>{content.cta_title}</h2>
-            <p>{content.cta_text}</p>
+            <div className="cta-copy">
+              <span className="section-eyebrow light">Contato direto</span>
+              <h2>{content.cta_title}</h2>
+              <p>{content.cta_text}</p>
+            </div>
             <a href={whatsappUrl} target="_blank" rel="noreferrer" className="whatsapp-button">
               <span className="whatsapp-icon">✆</span>
               {content.cta_button_text}
@@ -70,25 +132,10 @@ export default async function HomePage() {
         <footer className="site-footer" id="privacidade">
           <div className="footer-logo-wrap">
             {content.hero_logo_url ? (
-              <Image
-                src={content.hero_logo_url}
-                alt={content.brand_name}
-                width={320}
-                height={110}
-                style={{ width: '100%', maxWidth: 250, height: 'auto', objectFit: 'contain' }}
-              />
+              <Image src={content.hero_logo_url} alt={content.brand_name} width={320} height={110} style={{ width: '100%', maxWidth: 250, height: 'auto', objectFit: 'contain' }} />
             ) : null}
           </div>
-
-          <div className="footer-socials" aria-label="Redes sociais ilustrativas">
-            <span>◔</span>
-            <span>⌾</span>
-            <span>f</span>
-            <span>◎</span>
-            <span>𝕏</span>
-            <span>♬</span>
-          </div>
-
+          <div className="footer-divider" />
           <p className="footer-main-text">{content.footer_text}</p>
           <p className="footer-privacy">{content.privacy_policy_text}</p>
         </footer>
