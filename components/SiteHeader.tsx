@@ -122,15 +122,17 @@ export function SiteHeader({
         .site-header {
           position: relative;
           display: grid;
-          grid-template-columns: 1fr;
+          grid-template-columns: 1fr auto;
           align-items: center;
-          justify-content: center;
+          justify-content: space-between;
           gap: 16px;
-          min-height: 112px;
-          padding: 18px 22px;
-          border-radius: 28px;
+          min-height: 96px;
+          padding: 14px 20px;
+          border-radius: 24px;
           background:
+            url("data:image/svg+xml,%3Csvg width='120' height='120' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='wheat' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:rgba(201,138,61,0.12);stop-opacity:1' /%3E%3Cstop offset='50%25' style='stop-color:rgba(199,132,30,0.16);stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:rgba(201,138,61,0.12);stop-opacity:1' /%3E%3C/linearGradient%3E%3ClinearGradient id='wheat2' x1='100%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:rgba(199,132,30,0.1);stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:rgba(201,138,61,0.08);stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='120' height='120' fill='url(%23wheat)'/%3E%3Crect width='120' height='120' fill='url(%23wheat2)' opacity='0.7'/%3E%3Ccircle cx='25' cy='35' r='2.2' fill='rgba(199,132,30,0.15)'/%3E%3Ccircle cx='70' cy='60' r='1.8' fill='rgba(201,138,61,0.12)'/%3E%3Ccircle cx='95' cy='25' r='2' fill='rgba(199,132,30,0.14)'/%3E%3Ccircle cx='45' cy='85' r='1.8' fill='rgba(201,138,61,0.12)'/%3E%3Ccircle cx='15' cy='70' r='2' fill='rgba(199,132,30,0.13)'/%3E%3Cline x1='5' y1='40' x2='115' y2='48' stroke='rgba(199,132,30,0.11)' stroke-width='1.2'/%3E%3Cline x1='8' y1='75' x2='112' y2='82' stroke='rgba(201,138,61,0.1)' stroke-width='1.2'/%3E%3Cline x1='0' y1='20' x2='120' y2='22' stroke='rgba(201,138,61,0.09)' stroke-width='0.8'/%3E%3Cline x1='0' y1='55' x2='120' y2='58' stroke='rgba(199,132,30,0.08)' stroke-width='0.8'/%3E%3C/svg%3E"),
             linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(249, 246, 239, 0.94));
+          background-size: 120px 120px, 100%;
           box-shadow:
             inset 0 1px 0 rgba(255, 255, 255, 0.9),
             0 10px 28px rgba(47, 79, 31, 0.08);
@@ -247,13 +249,13 @@ export function SiteHeader({
         }
 
         .mobile-menu-button {
-          display: none !important;
+          display: none;
           justify-self: end;
           position: relative;
           z-index: 3;
-          width: 52px;
-          height: 52px;
-          border-radius: 16px;
+          width: 48px;
+          height: 48px;
+          border-radius: 14px;
           border: 1px solid rgba(201, 138, 61, 0.32);
           background: rgba(255, 255, 255, 0.9);
           box-shadow:
@@ -397,9 +399,9 @@ export function SiteHeader({
 
         @media (max-width: 860px) {
           .site-header {
-            grid-template-columns: 1fr auto 1fr;
-            min-height: 96px;
-            padding: 14px 16px;
+            grid-template-columns: 1fr auto;
+            min-height: 90px;
+            padding: 12px 16px;
           }
 
           .desktop-nav {
@@ -407,7 +409,7 @@ export function SiteHeader({
           }
 
           .mobile-menu-button {
-            display: block;
+            display: flex;
           }
 
           .site-logo-image {
