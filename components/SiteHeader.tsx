@@ -122,14 +122,17 @@ export function SiteHeader({
         .site-header {
           position: relative;
           display: grid;
-          grid-template-columns: 1fr auto 1fr;
+          grid-template-columns: 1fr auto;
           align-items: center;
+          justify-content: space-between;
           gap: 16px;
-          min-height: 112px;
-          padding: 18px 22px;
-          border-radius: 28px;
+          min-height: 96px;
+          padding: 14px 20px;
+          border-radius: 24px;
           background:
+            url("data:image/svg+xml,%3Csvg width='120' height='120' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='wheat' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:rgba(201,138,61,0.12);stop-opacity:1' /%3E%3Cstop offset='50%25' style='stop-color:rgba(199,132,30,0.16);stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:rgba(201,138,61,0.12);stop-opacity:1' /%3E%3C/linearGradient%3E%3ClinearGradient id='wheat2' x1='100%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:rgba(199,132,30,0.1);stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:rgba(201,138,61,0.08);stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='120' height='120' fill='url(%23wheat)'/%3E%3Crect width='120' height='120' fill='url(%23wheat2)' opacity='0.7'/%3E%3Ccircle cx='25' cy='35' r='2.2' fill='rgba(199,132,30,0.15)'/%3E%3Ccircle cx='70' cy='60' r='1.8' fill='rgba(201,138,61,0.12)'/%3E%3Ccircle cx='95' cy='25' r='2' fill='rgba(199,132,30,0.14)'/%3E%3Ccircle cx='45' cy='85' r='1.8' fill='rgba(201,138,61,0.12)'/%3E%3Ccircle cx='15' cy='70' r='2' fill='rgba(199,132,30,0.13)'/%3E%3Cline x1='5' y1='40' x2='115' y2='48' stroke='rgba(199,132,30,0.11)' stroke-width='1.2'/%3E%3Cline x1='8' y1='75' x2='112' y2='82' stroke='rgba(201,138,61,0.1)' stroke-width='1.2'/%3E%3Cline x1='0' y1='20' x2='120' y2='22' stroke='rgba(201,138,61,0.09)' stroke-width='0.8'/%3E%3Cline x1='0' y1='55' x2='120' y2='58' stroke='rgba(199,132,30,0.08)' stroke-width='0.8'/%3E%3C/svg%3E"),
             linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(249, 246, 239, 0.94));
+          background-size: 120px 120px, 100%;
           box-shadow:
             inset 0 1px 0 rgba(255, 255, 255, 0.9),
             0 10px 28px rgba(47, 79, 31, 0.08);
@@ -164,7 +167,7 @@ export function SiteHeader({
         }
 
         .desktop-nav {
-          display: flex;
+          display: none;
           align-items: center;
           gap: 18px;
           min-width: 0;
@@ -177,17 +180,33 @@ export function SiteHeader({
         .site-nav-link {
           position: relative;
           z-index: 1;
-          font-size: 16px;
+          font-size: 15px;
           font-weight: 700;
           color: ${primaryColor};
           text-decoration: none;
-          transition: 0.2s ease;
+          transition: all 0.3s ease;
           white-space: nowrap;
+          padding: 8px 12px;
+          border-radius: 12px;
+          letter-spacing: 0.02em;
+        }
+
+        .site-nav-link::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: 12px;
+          background: linear-gradient(135deg, ${primaryColor}, rgba(201, 138, 61, 0.6));
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          z-index: -1;
         }
 
         .site-nav-link:hover {
-          opacity: 0.82;
-          transform: translateY(-1px);
+          opacity: 0.9;
+          transform: translateY(-2px);
+          background: rgba(201, 138, 61, 0.08);
+          box-shadow: 0 4px 12px rgba(201, 138, 61, 0.15);
         }
 
         .site-logo-link {
@@ -198,6 +217,14 @@ export function SiteHeader({
           justify-content: center;
           text-decoration: none;
           min-width: 0;
+          padding: 8px 14px;
+          border-radius: 16px;
+          transition: all 0.3s ease;
+        }
+
+        .site-logo-link:hover {
+          background: rgba(201, 138, 61, 0.06);
+          transform: scale(1.02);
         }
 
         .site-logo-image {
@@ -205,6 +232,12 @@ export function SiteHeader({
           height: auto;
           object-fit: contain;
           display: block;
+          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
+          transition: filter 0.3s ease;
+        }
+
+        .site-logo-link:hover .site-logo-image {
+          filter: drop-shadow(0 4px 8px rgba(201, 138, 61, 0.2));
         }
 
         .site-logo-text {
@@ -212,6 +245,7 @@ export function SiteHeader({
           font-weight: 900;
           letter-spacing: 0.04em;
           color: ${primaryColor};
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
         }
 
         .mobile-menu-button {
@@ -219,14 +253,25 @@ export function SiteHeader({
           justify-self: end;
           position: relative;
           z-index: 3;
-          width: 52px;
-          height: 52px;
-          border-radius: 16px;
-          border: 1px solid rgba(201, 138, 61, 0.26);
-          background: rgba(255, 255, 255, 0.88);
-          box-shadow: 0 8px 18px rgba(47, 79, 31, 0.1);
+          width: 48px;
+          height: 48px;
+          border-radius: 14px;
+          border: 1px solid rgba(201, 138, 61, 0.32);
+          background: rgba(255, 255, 255, 0.9);
+          box-shadow:
+            0 8px 20px rgba(47, 79, 31, 0.12),
+            inset 0 1px 0 rgba(255, 255, 255, 0.6);
           cursor: pointer;
           padding: 0;
+          transition: all 0.3s ease;
+        }
+
+        .mobile-menu-button:hover {
+          background: rgba(255, 255, 255, 0.95);
+          box-shadow:
+            0 10px 28px rgba(47, 79, 31, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.8);
+          transform: translateY(-2px);
         }
 
         .mobile-menu-button span {
@@ -236,7 +281,7 @@ export function SiteHeader({
           height: 3px;
           border-radius: 999px;
           background: ${primaryColor};
-          transition: 0.25s ease;
+          transition: all 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .mobile-menu-button span:nth-child(1) {
@@ -288,13 +333,14 @@ export function SiteHeader({
           height: 100vh;
           background:
             linear-gradient(180deg, #fffdf8 0%, #f6f1e7 100%);
-          box-shadow: -10px 0 30px rgba(0, 0, 0, 0.18);
+          box-shadow: -12px 0 40px rgba(0, 0, 0, 0.2);
           transform: translateX(100%);
-          transition: transform 0.28s ease;
+          transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
           z-index: 61;
           padding: 22px 18px 28px;
           display: flex;
           flex-direction: column;
+          backdrop-filter: blur(10px);
         }
 
         .mobile-menu-panel.is-open {
@@ -338,15 +384,24 @@ export function SiteHeader({
           font-weight: 700;
           padding: 14px 16px;
           border-radius: 16px;
-          background: rgba(255, 255, 255, 0.78);
-          border: 1px solid rgba(201, 138, 61, 0.18);
+          background: rgba(255, 255, 255, 0.82);
+          border: 1px solid rgba(201, 138, 61, 0.22);
+          transition: all 0.25s ease;
+          letter-spacing: 0.02em;
+        }
+
+        .mobile-nav-link:hover {
+          background: rgba(255, 255, 255, 0.92);
+          border-color: rgba(201, 138, 61, 0.38);
+          transform: translateX(4px);
+          box-shadow: 0 4px 12px rgba(201, 138, 61, 0.1);
         }
 
         @media (max-width: 860px) {
           .site-header {
-            grid-template-columns: 1fr auto 1fr;
-            min-height: 96px;
-            padding: 14px 16px;
+            grid-template-columns: 1fr auto;
+            min-height: 90px;
+            padding: 12px 16px;
           }
 
           .desktop-nav {
@@ -354,7 +409,7 @@ export function SiteHeader({
           }
 
           .mobile-menu-button {
-            display: block;
+            display: flex;
           }
 
           .site-logo-image {
