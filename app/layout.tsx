@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { WheatParallax } from '@/components/WheatParallax';
 
 export const metadata: Metadata = {
   title: 'Congepan',
@@ -7,5 +8,12 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return <html lang="pt-BR"><body>{children}</body></html>;
+  return (
+    <html lang="pt-BR">
+      <body>
+        <WheatParallax />
+        {children}
+      </body>
+    </html>
+  );
 }
