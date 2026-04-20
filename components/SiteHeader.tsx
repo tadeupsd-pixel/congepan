@@ -122,8 +122,9 @@ export function SiteHeader({
         .site-header {
           position: relative;
           display: grid;
-          grid-template-columns: 1fr auto 1fr;
+          grid-template-columns: 1fr;
           align-items: center;
+          justify-content: center;
           gap: 16px;
           min-height: 112px;
           padding: 18px 22px;
@@ -164,7 +165,7 @@ export function SiteHeader({
         }
 
         .desktop-nav {
-          display: flex;
+          display: none;
           align-items: center;
           gap: 18px;
           min-width: 0;
@@ -246,7 +247,7 @@ export function SiteHeader({
         }
 
         .mobile-menu-button {
-          display: none;
+          display: none !important;
           justify-self: end;
           position: relative;
           z-index: 3;
