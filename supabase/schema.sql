@@ -54,3 +54,6 @@ create table if not exists public.site_visits (
 create index if not exists idx_site_visits_created_at on public.site_visits (created_at desc);
 create index if not exists idx_site_visits_ip_address on public.site_visits (ip_address);
 create index if not exists idx_site_visits_city on public.site_visits (city);
+
+alter table public.site_content disable row level security;
+alter table public.site_visits disable row level security;

@@ -22,7 +22,7 @@ export function HeroCarousel({ images, logoUrl, title, bullets, primaryColor, se
     if (safeImages.length <= 1) return;
     const timer = setInterval(() => {
       setIndex((currentIndex) => (currentIndex + 1) % safeImages.length);
-    }, 4500);
+    }, 4800);
     return () => clearInterval(timer);
   }, [safeImages.length]);
 
@@ -43,38 +43,36 @@ export function HeroCarousel({ images, logoUrl, title, bullets, primaryColor, se
           <Image src={current} alt="Banner principal" fill priority sizes="(max-width: 900px) 100vw, 1200px" className="hero-media" />
           <div className="hero-overlay" />
 
-          <button type="button" className="hero-arrow hero-arrow-left" onClick={previous} aria-label="Banner anterior">
-            ‹
-          </button>
-          <button type="button" className="hero-arrow hero-arrow-right" onClick={next} aria-label="Próximo banner">
-            ›
-          </button>
+          {safeImages.length > 1 ? (
+            <>
+              <button type="button" className="hero-arrow hero-arrow-left" onClick={previous} aria-label="Banner anterior">‹</button>
+              <button type="button" className="hero-arrow hero-arrow-right" onClick={next} aria-label="Próximo banner">›</button>
+            </>
+          ) : null}
 
-          <div className="hero-copy">
-            <div className="hero-kicker" style={{ color: secondaryColor }}>
-              構造 premium · Congepan
+          <div className="hero-grid">
+            <div className="hero-copy">
+              <div className="hero-kicker" style={{ color: secondaryColor }}>Premium · Congepan</div>
+              <h1>{title}</h1>
+              {subtitle ? <p className="hero-subtitle">{subtitle}</p> : null}
+
+              <div className="hero-bullets-panel">
+                {bullets.filter(Boolean).map((bullet) => (
+                  <div className="hero-bullet" key={bullet}>
+                    <span className="hero-bullet-check" style={{ color: secondaryColor }}>✓</span>
+                    <span>{bullet}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-            <h1>{title}</h1>
-            {subtitle ? <p className="hero-subtitle">{subtitle}</p> : null}
 
-            <div className="hero-bullets-panel">
-              {bullets.filter(Boolean).map((bullet) => (
-                <div className="hero-bullet" key={bullet}>
-                  <span className="hero-bullet-check" style={{ color: secondaryColor }}>✓</span>
-                  <span>{bullet}</span>
+            {logoUrl ? (
+              <div className="hero-floating-logo">
+                <div className="hero-floating-logo-inner">
+                  <Image src={logoUrl} alt="Logo" width={440} height={190} style={{ width: '100%', height: 'auto', objectFit: 'contain' }} />
                 </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="hero-floating-logo">
-            <div className="hero-floating-logo-inner">
-              {logoUrl ? <Image src={logoUrl} alt="Logo" width={440} height={190} style={{ width: '100%', height: 'auto', objectFit: 'contain' }} /> : null}
-            </div>
-          </div>
-
-          <div className="hero-scroll-chip" style={{ borderColor: secondaryColor }}>
-            role para baixo
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
