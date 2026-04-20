@@ -1,76 +1,427 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-type Props = {
-  logoUrl?: string | null;
-  brandName: string;
-  primaryColor: string;
+type SiteHeaderProps = {
+  logoUrl?: string;
+  brandName?: string;
+  primaryColor?: string;
 };
 
-const links = [
-  { href: '#topo', label: 'Início' },
-  { href: '#linhas', label: 'Linhas' },
-  { href: '#sobre', label: 'Sobre' },
-  { href: '#contato', label: 'Contato' }
+const navItems = [
+  { label: 'Início', href: '#topo' },
+  { label: 'Linhas', href: '#linhas' },
+  { label: 'Sobre', href: '#sobre' },
+  { label: 'Contato', href: '#contato' },
 ];
 
-export function SiteHeader({ logoUrl, brandName, primaryColor }: Props) {
+export function SiteHeader({
+  logoUrl,
+  brandName = 'Congepan',
+  primaryColor = '#2F4F1F',
+}: SiteHeaderProps) {
   const [open, setOpen] = useState(false);
 
+  useEffect(() => {
+    const close = () => setOpen(false);
+    window.addEventListener('resize', close);
+    return () => window.removeEventListener('resize', close);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [open]);
+
   return (
-    <header className="site-header-shell">
-      <div className="site-header-card">
-        <div className="site-header-side desktop-only">
-          {links.slice(0, 2).map((item) => (
-            <a key={item.href} href={item.href} className="site-nav-link">
-              {item.label}
-            </a>
-          ))}
-        </div>
+    <>
+      <header className="site-header-shell">
+        <div className="site-header">
+          <nav className="site-nav desktop-nav" aria-label="Navegação principal">
+            {navItems.map((item) => (
+              <a key={item.href} href={item.href} className="site-nav-link">
+                {item.label}
+              </a>
+            ))}
+          </nav>
 
-        <a href="#topo" className="site-header-logo" aria-label={brandName}>
-          {logoUrl ? (
-            <Image src={logoUrl} alt={brandName} width={340} height={110} style={{ width: '100%', height: 'auto', objectFit: 'contain' }} />
-          ) : (
-            <strong>{brandName}</strong>
-          )}
-        </a>
-
-        <div className="site-header-side desktop-only right-align">
-          {links.slice(2).map((item) => (
-            <a key={item.href} href={item.href} className="site-nav-link">
-              {item.label}
-            </a>
-          ))}
-        </div>
-
-        <button
-          type="button"
-          className="site-menu-button mobile-only"
-          aria-label="Abrir menu"
-          onClick={() => setOpen((current) => !current)}
-          style={{ color: primaryColor }}
-        >
-          <span />
-          <span />
-          <span />
-        </button>
-      </div>
-
-      {open ? (
-        <nav className="site-nav-dropdown mobile-only">
-          {links.map((item) => (
-            <a key={item.href} href={item.href} onClick={() => setOpen(false)}>
-              {item.label}
-            </a>
-          ))}
-          <a href="#privacidade" onClick={() => setOpen(false)}>
-            Privacidade
+          <a href="#topo" className="site-logo-link" aria-label={brandName}>
+            {logoUrl ? (
+              <Image
+                src={logoUrl}
+                alt={brandName}
+                width={260}
+                height={110}
+                className="site-logo-image"
+                priority
+              />
+            ) : (
+              <span className="site-logo-text">{brandName}</span>
+            )}
           </a>
+
+          <button
+            type="button"
+            className={`mobile-menu-button ${open ? 'is-open' : ''}`}
+            aria-label={open ? 'Fechar menu' : 'Abrir menu'}
+            aria-expanded={open}
+            aria-controls="mobile-menu-panel"
+            onClick={() => setOpen((prev) => !prev)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+        </div>
+      </header>
+
+      <div
+        className={`mobile-menu-backdrop ${open ? 'is-open' : ''}`}
+        onClick={() => setOpen(false)}
+      />
+
+      <aside
+        id="mobile-menu-panel"
+        className={`mobile-menu-panel ${open ? 'is-open' : ''}`}
+        aria-hidden={!open}
+      >
+        <div className="mobile-menu-top">
+          <span className="mobile-menu-title">Menu</span>
+          <button
+            type="button"
+            className="mobile-menu-close"
+            onClick={() => setOpen(false)}
+            aria-label="Fechar menu"
+          >
+            ×
+          </button>
+        </div>
+
+        <nav className="mobile-nav" aria-label="Menu mobile">
+          {navItems.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className="mobile-nav-link"
+              onClick={() => setOpen(false)}
+            >
+              {item.label}
+            </a>
+          ))}
         </nav>
-      ) : null}
-    </header>
+      </aside>
+
+      <style jsx>{`
+        .site-header-shell {
+          padding: 18px 18px 0;
+        }
+
+        .site-header {
+          position: relative;
+          display: grid;
+          grid-template-columns: 1fr auto 1fr;
+          align-items: center;
+          gap: 16px;
+          min-height: 112px;
+          padding: 18px 22px;
+          border-radius: 28px;
+          background:
+            linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(249, 246, 239, 0.94));
+          box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.9),
+            0 10px 28px rgba(47, 79, 31, 0.08);
+          border: 1px solid rgba(201, 138, 61, 0.18);
+          overflow: hidden;
+        }
+
+        .site-header::before,
+        .site-header::after {
+          content: '';
+          position: absolute;
+          top: 18px;
+          bottom: 18px;
+          width: 18px;
+          border-radius: 999px;
+          opacity: 0.18;
+          pointer-events: none;
+          background:
+            linear-gradient(
+              180deg,
+              rgba(201, 138, 61, 0.18),
+              rgba(201, 138, 61, 0.05)
+            );
+        }
+
+        .site-header::before {
+          left: 12px;
+        }
+
+        .site-header::after {
+          right: 12px;
+        }
+
+        .desktop-nav {
+          display: flex;
+          align-items: center;
+          gap: 18px;
+          min-width: 0;
+        }
+
+        .desktop-nav:first-of-type {
+          justify-content: flex-start;
+        }
+
+        .site-nav-link {
+          position: relative;
+          z-index: 1;
+          font-size: 16px;
+          font-weight: 700;
+          color: ${primaryColor};
+          text-decoration: none;
+          transition: 0.2s ease;
+          white-space: nowrap;
+        }
+
+        .site-nav-link:hover {
+          opacity: 0.82;
+          transform: translateY(-1px);
+        }
+
+        .site-logo-link {
+          position: relative;
+          z-index: 2;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-decoration: none;
+          min-width: 0;
+        }
+
+        .site-logo-image {
+          width: min(100%, 240px);
+          height: auto;
+          object-fit: contain;
+          display: block;
+        }
+
+        .site-logo-text {
+          font-size: 28px;
+          font-weight: 900;
+          letter-spacing: 0.04em;
+          color: ${primaryColor};
+        }
+
+        .mobile-menu-button {
+          display: none;
+          justify-self: end;
+          position: relative;
+          z-index: 3;
+          width: 52px;
+          height: 52px;
+          border-radius: 16px;
+          border: 1px solid rgba(201, 138, 61, 0.26);
+          background: rgba(255, 255, 255, 0.88);
+          box-shadow: 0 8px 18px rgba(47, 79, 31, 0.1);
+          cursor: pointer;
+          padding: 0;
+        }
+
+        .mobile-menu-button span {
+          position: absolute;
+          left: 13px;
+          right: 13px;
+          height: 3px;
+          border-radius: 999px;
+          background: ${primaryColor};
+          transition: 0.25s ease;
+        }
+
+        .mobile-menu-button span:nth-child(1) {
+          top: 16px;
+        }
+
+        .mobile-menu-button span:nth-child(2) {
+          top: 24px;
+        }
+
+        .mobile-menu-button span:nth-child(3) {
+          top: 32px;
+        }
+
+        .mobile-menu-button.is-open span:nth-child(1) {
+          top: 24px;
+          transform: rotate(45deg);
+        }
+
+        .mobile-menu-button.is-open span:nth-child(2) {
+          opacity: 0;
+        }
+
+        .mobile-menu-button.is-open span:nth-child(3) {
+          top: 24px;
+          transform: rotate(-45deg);
+        }
+
+        .mobile-menu-backdrop {
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.36);
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.25s ease;
+          z-index: 60;
+        }
+
+        .mobile-menu-backdrop.is-open {
+          opacity: 1;
+          pointer-events: auto;
+        }
+
+        .mobile-menu-panel {
+          position: fixed;
+          top: 0;
+          right: 0;
+          width: min(82vw, 340px);
+          height: 100vh;
+          background:
+            linear-gradient(180deg, #fffdf8 0%, #f6f1e7 100%);
+          box-shadow: -10px 0 30px rgba(0, 0, 0, 0.18);
+          transform: translateX(100%);
+          transition: transform 0.28s ease;
+          z-index: 61;
+          padding: 22px 18px 28px;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .mobile-menu-panel.is-open {
+          transform: translateX(0);
+        }
+
+        .mobile-menu-top {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 18px;
+        }
+
+        .mobile-menu-title {
+          font-size: 22px;
+          font-weight: 800;
+          color: ${primaryColor};
+        }
+
+        .mobile-menu-close {
+          border: none;
+          background: transparent;
+          color: ${primaryColor};
+          font-size: 34px;
+          line-height: 1;
+          cursor: pointer;
+        }
+
+        .mobile-nav {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          margin-top: 8px;
+        }
+
+        .mobile-nav-link {
+          display: block;
+          text-decoration: none;
+          color: ${primaryColor};
+          font-size: 18px;
+          font-weight: 700;
+          padding: 14px 16px;
+          border-radius: 16px;
+          background: rgba(255, 255, 255, 0.78);
+          border: 1px solid rgba(201, 138, 61, 0.18);
+        }
+
+        @media (max-width: 860px) {
+          .site-header {
+            grid-template-columns: 1fr auto 1fr;
+            min-height: 96px;
+            padding: 14px 16px;
+          }
+
+          .desktop-nav {
+            display: none;
+          }
+
+          .mobile-menu-button {
+            display: block;
+          }
+
+          .site-logo-image {
+            width: min(100%, 170px);
+          }
+
+          .site-header::before,
+          .site-header::after {
+            width: 12px;
+            top: 16px;
+            bottom: 16px;
+            opacity: 0.12;
+          }
+
+          .site-header::before {
+            left: 8px;
+          }
+
+          .site-header::after {
+            right: 8px;
+          }
+        }
+
+        @media (max-width: 520px) {
+          .site-header-shell {
+            padding: 14px 14px 0;
+          }
+
+          .site-header {
+            min-height: 90px;
+            border-radius: 24px;
+            padding: 12px 14px;
+          }
+
+          .site-logo-image {
+            width: min(100%, 145px);
+          }
+
+          .mobile-menu-button {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+          }
+
+          .mobile-menu-button span {
+            left: 11px;
+            right: 11px;
+          }
+
+          .mobile-menu-button span:nth-child(1) {
+            top: 14px;
+          }
+
+          .mobile-menu-button span:nth-child(2) {
+            top: 21px;
+          }
+
+          .mobile-menu-button span:nth-child(3) {
+            top: 28px;
+          }
+
+          .mobile-menu-button.is-open span:nth-child(1),
+          .mobile-menu-button.is-open span:nth-child(3) {
+            top: 21px;
+          }
+        }
+      `}</style>
+    </>
   );
 }
