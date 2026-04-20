@@ -43,14 +43,14 @@ export default async function HomePage() {
 
       <div className="congepan-frame">
         <SiteHeader
-          logoUrl={content.hero_logo_url ?? undefined}
+          
           brandName={content.brand_name}
           primaryColor={content.primary_color}
         />
 
         <HeroCarousel
           images={[content.banner_1_url || '', content.banner_2_url || '', content.banner_3_url || '']}
-          logoUrl={content.hero_logo_url ?? undefined}
+          
           title={content.headline}
           subtitle={content.subheadline}
           bullets={bullets}
