@@ -177,17 +177,33 @@ export function SiteHeader({
         .site-nav-link {
           position: relative;
           z-index: 1;
-          font-size: 16px;
+          font-size: 15px;
           font-weight: 700;
           color: ${primaryColor};
           text-decoration: none;
-          transition: 0.2s ease;
+          transition: all 0.3s ease;
           white-space: nowrap;
+          padding: 8px 12px;
+          border-radius: 12px;
+          letter-spacing: 0.02em;
+        }
+
+        .site-nav-link::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: 12px;
+          background: linear-gradient(135deg, ${primaryColor}, rgba(201, 138, 61, 0.6));
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          z-index: -1;
         }
 
         .site-nav-link:hover {
-          opacity: 0.82;
-          transform: translateY(-1px);
+          opacity: 0.9;
+          transform: translateY(-2px);
+          background: rgba(201, 138, 61, 0.08);
+          box-shadow: 0 4px 12px rgba(201, 138, 61, 0.15);
         }
 
         .site-logo-link {
@@ -198,6 +214,14 @@ export function SiteHeader({
           justify-content: center;
           text-decoration: none;
           min-width: 0;
+          padding: 8px 14px;
+          border-radius: 16px;
+          transition: all 0.3s ease;
+        }
+
+        .site-logo-link:hover {
+          background: rgba(201, 138, 61, 0.06);
+          transform: scale(1.02);
         }
 
         .site-logo-image {
@@ -205,6 +229,12 @@ export function SiteHeader({
           height: auto;
           object-fit: contain;
           display: block;
+          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
+          transition: filter 0.3s ease;
+        }
+
+        .site-logo-link:hover .site-logo-image {
+          filter: drop-shadow(0 4px 8px rgba(201, 138, 61, 0.2));
         }
 
         .site-logo-text {
@@ -212,6 +242,7 @@ export function SiteHeader({
           font-weight: 900;
           letter-spacing: 0.04em;
           color: ${primaryColor};
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
         }
 
         .mobile-menu-button {
@@ -222,11 +253,22 @@ export function SiteHeader({
           width: 52px;
           height: 52px;
           border-radius: 16px;
-          border: 1px solid rgba(201, 138, 61, 0.26);
-          background: rgba(255, 255, 255, 0.88);
-          box-shadow: 0 8px 18px rgba(47, 79, 31, 0.1);
+          border: 1px solid rgba(201, 138, 61, 0.32);
+          background: rgba(255, 255, 255, 0.9);
+          box-shadow:
+            0 8px 20px rgba(47, 79, 31, 0.12),
+            inset 0 1px 0 rgba(255, 255, 255, 0.6);
           cursor: pointer;
           padding: 0;
+          transition: all 0.3s ease;
+        }
+
+        .mobile-menu-button:hover {
+          background: rgba(255, 255, 255, 0.95);
+          box-shadow:
+            0 10px 28px rgba(47, 79, 31, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.8);
+          transform: translateY(-2px);
         }
 
         .mobile-menu-button span {
@@ -236,7 +278,7 @@ export function SiteHeader({
           height: 3px;
           border-radius: 999px;
           background: ${primaryColor};
-          transition: 0.25s ease;
+          transition: all 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .mobile-menu-button span:nth-child(1) {
@@ -288,13 +330,14 @@ export function SiteHeader({
           height: 100vh;
           background:
             linear-gradient(180deg, #fffdf8 0%, #f6f1e7 100%);
-          box-shadow: -10px 0 30px rgba(0, 0, 0, 0.18);
+          box-shadow: -12px 0 40px rgba(0, 0, 0, 0.2);
           transform: translateX(100%);
-          transition: transform 0.28s ease;
+          transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
           z-index: 61;
           padding: 22px 18px 28px;
           display: flex;
           flex-direction: column;
+          backdrop-filter: blur(10px);
         }
 
         .mobile-menu-panel.is-open {
@@ -338,8 +381,17 @@ export function SiteHeader({
           font-weight: 700;
           padding: 14px 16px;
           border-radius: 16px;
-          background: rgba(255, 255, 255, 0.78);
-          border: 1px solid rgba(201, 138, 61, 0.18);
+          background: rgba(255, 255, 255, 0.82);
+          border: 1px solid rgba(201, 138, 61, 0.22);
+          transition: all 0.25s ease;
+          letter-spacing: 0.02em;
+        }
+
+        .mobile-nav-link:hover {
+          background: rgba(255, 255, 255, 0.92);
+          border-color: rgba(201, 138, 61, 0.38);
+          transform: translateX(4px);
+          box-shadow: 0 4px 12px rgba(201, 138, 61, 0.1);
         }
 
         @media (max-width: 860px) {
