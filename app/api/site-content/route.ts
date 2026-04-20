@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { getSupabaseAdmin } from '@/lib/supabase';
 import { ensureAdminApi } from '@/lib/auth';
@@ -56,11 +55,7 @@ export async function PUT(request: Request) {
 
   const supabase = getSupabaseAdmin();
   const payload = { id: 1, ...parsed.data };
-  const { data, error } = await supabase.from('site_content').upsert(payload, { onConflict: 'id' }).select('*').single();
+  const { data, error } = await supabase.from('site_content').upsert(payload).select('*').single();
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-
-  revalidatePath('/');
-  revalidatePath('/admin');
-
   return NextResponse.json({ ok: true, data: { id: 1, ...defaultSiteContent, ...data } });
 }
