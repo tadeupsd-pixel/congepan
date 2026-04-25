@@ -9,9 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@builder.io/react": "^9.3.0",
     "@supabase/supabase-js": "^2.57.4",
-    "@vercel/functions": "^2.2.13",
     "next": "16.0.7",
     "react": "19.2.0",
     "react-dom": "19.2.0",
