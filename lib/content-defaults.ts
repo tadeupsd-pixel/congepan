@@ -28,5 +28,23 @@ export const defaultSiteContent: Omit<SiteContent, 'id' | 'updated_at'> = {
   cta_text: 'Estamos prontos para atender você e levar mais praticidade para sua produção.',
   cta_button_text: 'Fale pelo WhatsApp',
   footer_text: '© 2026 Congepan - Qualidade e Praticidade na sua Padaria. Todos os direitos reservados.',
-  privacy_policy_text: 'Este site pode registrar endereço IP, cidade aproximada, dispositivo e dados básicos de navegação para fins de segurança, estatística e controle interno. Essas informações não são utilizadas para fins irregulares e são tratadas de forma restrita.'
+  privacy_policy_text: 'Este site pode registrar endereço IP, cidade aproximada, dispositivo e dados básicos de navegação para fins de segurança, estatística e controle interno. Essas informações não são utilizadas para fins irregulares e são tratadas de forma restrita.',
+  // Vídeos
+  video_1_url: null,
+  video_1_title: 'Conheça a Congepan',
+  video_1_description: 'Veja como a Congepan nasceu e qual é a nossa missão: levar pães de qualidade para padarias de todo o Brasil.',
+  video_1_visible: true,
+  video_2_url: null,
+  video_2_title: 'O que nossos clientes dizem',
+  video_2_description: 'Padarias que já trabalham com a Congepan compartilham sua experiência e os resultados que alcançaram.',
+  video_2_visible: true,
+  video_3_url: null,
+  video_3_title: 'Qualidade do Pão Congepan',
+  video_3_description: 'Tire suas dúvidas sobre o processo de congelamento, a textura, o sabor e como nossos pães chegam prontos para assar.',
+  video_3_visible: true,
+  // Visibilidade de seções
+  section_cards_visible: true,
+  section_about_visible: true,
+  section_videos_visible: true,
+  section_cta_visible: true,
 };

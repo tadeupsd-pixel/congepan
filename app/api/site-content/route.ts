@@ -38,7 +38,25 @@ const schema = z.object({
   cta_text: z.string().min(1),
   cta_button_text: z.string().min(1),
   footer_text: z.string().min(1),
-  privacy_policy_text: z.string().min(1)
+  privacy_policy_text: z.string().min(1),
+  // Vídeos
+  video_1_url: maybeUrl.nullable().optional().transform((v) => v || null),
+  video_1_title: z.string().min(1),
+  video_1_description: z.string(),
+  video_1_visible: z.boolean(),
+  video_2_url: maybeUrl.nullable().optional().transform((v) => v || null),
+  video_2_title: z.string().min(1),
+  video_2_description: z.string(),
+  video_2_visible: z.boolean(),
+  video_3_url: maybeUrl.nullable().optional().transform((v) => v || null),
+  video_3_title: z.string().min(1),
+  video_3_description: z.string(),
+  video_3_visible: z.boolean(),
+  // Visibilidade de seções
+  section_cards_visible: z.boolean(),
+  section_about_visible: z.boolean(),
+  section_videos_visible: z.boolean(),
+  section_cta_visible: z.boolean(),
 });
 
 export async function GET() {

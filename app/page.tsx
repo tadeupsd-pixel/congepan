@@ -6,6 +6,7 @@ import { HeroCarousel } from '@/components/HeroCarousel';
 import { SiteHeader } from '@/components/SiteHeader';
 import { RevealOnScroll } from '@/components/RevealOnScroll';
 import { FloatingWhatsApp } from '@/components/FloatingWhatsApp';
+import { VideoSection } from '@/components/VideoSection';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,6 +29,12 @@ export default async function HomePage() {
   ];
   const bullets = [content.bullet_1, content.bullet_2, content.bullet_3].filter(Boolean);
 
+  const videos = [
+    { url: content.video_1_url, title: content.video_1_title, description: content.video_1_description, visible: content.video_1_visible, index: 1 },
+    { url: content.video_2_url, title: content.video_2_title, description: content.video_2_description, visible: content.video_2_visible, index: 2 },
+    { url: content.video_3_url, title: content.video_3_title, description: content.video_3_description, visible: content.video_3_visible, index: 3 },
+  ];
+
   return (
     <main
       id="topo"
@@ -43,14 +50,12 @@ export default async function HomePage() {
 
       <div className="congepan-frame">
         <SiteHeader
-          
           brandName={content.brand_name}
           primaryColor={content.primary_color}
         />
 
         <HeroCarousel
           images={[content.banner_1_url || '', content.banner_2_url || '', content.banner_3_url || '']}
-          
           title={content.headline}
           subtitle={content.subheadline}
           bullets={bullets}
@@ -58,58 +63,74 @@ export default async function HomePage() {
           secondaryColor={content.secondary_color}
         />
 
-        <RevealOnScroll as="section" className="card-section" id="linhas" delay={80}>
-          <div className="card-grid">
-            {cards.map((card, index) => {
-              const inner = (
-                <>
-                  <div className="feature-icon">{card.icon}</div>
-                  <h3>{card.title}</h3>
-                  <p>{card.text}</p>
-                  {index === 2 ? (
-                    <span className="feature-wa-badge"><WhatsAppMark /></span>
-                  ) : null}
-                </>
-              );
+        {content.section_cards_visible && (
+          <RevealOnScroll as="section" className="card-section" id="linhas" delay={80}>
+            <div className="card-grid">
+              {cards.map((card, index) => {
+                const inner = (
+                  <>
+                    <div className="feature-icon">{card.icon}</div>
+                    <h3>{card.title}</h3>
+                    <p>{card.text}</p>
+                    {index === 2 ? (
+                      <span className="feature-wa-badge"><WhatsAppMark /></span>
+                    ) : null}
+                  </>
+                );
 
-              return card.href ? (
-                <a
-                  key={card.title}
-                  href={card.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className={`feature-card feature-card-${index + 1} feature-card-link`}
-                >
-                  {inner}
-                </a>
-              ) : (
-                <article key={card.title} className={`feature-card feature-card-${index + 1}`}>
-                  {inner}
-                </article>
-              );
-            })}
-          </div>
-        </RevealOnScroll>
-
-        <RevealOnScroll as="section" className="about-section" id="sobre" delay={120}>
-          <div className="about-panel">
-            <h2>{content.about_title}</h2>
-            <p>{content.about_text}</p>
-          </div>
-        </RevealOnScroll>
-
-        <RevealOnScroll as="section" className="cta-section" id="contato" delay={200}>
-          <div className="cta-card">
-            <div className="cta-copy">
-              <h2>{content.cta_title}</h2>
-              <p>{content.cta_text}</p>
+                return card.href ? (
+                  <a
+                    key={card.title}
+                    href={card.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={`feature-card feature-card-${index + 1} feature-card-link`}
+                  >
+                    {inner}
+                  </a>
+                ) : (
+                  <article key={card.title} className={`feature-card feature-card-${index + 1}`}>
+                    {inner}
+                  </article>
+                );
+              })}
             </div>
-            <a href={whatsappUrl} target="_blank" rel="noreferrer" className="whatsapp-button">
-              <span className="whatsapp-icon"><WhatsAppMark /></span>
-              {content.cta_button_text}
-            </a>
-          </div>
-        </RevealOnScroll>
+          </RevealOnScroll>
+        )}
+
+        {content.section_about_visible && (
+          <RevealOnScroll as="section" className="about-section" id="sobre" delay={120}>
+            <div className="about-panel">
+              <h2>{content.about_title}</h2>
+              <p>{content.about_text}</p>
+            </div>
+          </RevealOnScroll>
+        )}
+
+        {content.section_videos_visible && (
+          <RevealOnScroll as="section" className="videos-section" id="videos" delay={140}>
+            <div className="videos-section-header">
+              <h2 className="videos-section-title">Veja por dentro</h2>
+              <p className="videos-section-sub">Conheça a empresa, ouça nossos clientes e esclareça suas dúvidas</p>
+            </div>
+            <VideoSection videos={videos} />
+          </RevealOnScroll>
+        )}
+
+        {content.section_cta_visible && (
+          <RevealOnScroll as="section" className="cta-section" id="contato" delay={200}>
+            <div className="cta-card">
+              <div className="cta-copy">
+                <h2>{content.cta_title}</h2>
+                <p>{content.cta_text}</p>
+              </div>
+              <a href={whatsappUrl} target="_blank" rel="noreferrer" className="whatsapp-button">
+                <span className="whatsapp-icon"><WhatsAppMark /></span>
+                {content.cta_button_text}
+              </a>
+            </div>
+          </RevealOnScroll>
+        )}
 
         <RevealOnScroll as="footer" className="site-footer" id="privacidade" delay={240}>
           <div className="footer-logo-wrap">

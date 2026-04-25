@@ -28,6 +28,24 @@ export type SiteContent = {
   cta_button_text: string;
   footer_text: string;
   privacy_policy_text: string;
+  // Vídeos
+  video_1_url: string | null;
+  video_1_title: string;
+  video_1_description: string;
+  video_1_visible: boolean;
+  video_2_url: string | null;
+  video_2_title: string;
+  video_2_description: string;
+  video_2_visible: boolean;
+  video_3_url: string | null;
+  video_3_title: string;
+  video_3_description: string;
+  video_3_visible: boolean;
+  // Visibilidade de seções
+  section_cards_visible: boolean;
+  section_about_visible: boolean;
+  section_videos_visible: boolean;
+  section_cta_visible: boolean;
   updated_at: string;
 };
 

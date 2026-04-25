@@ -12,7 +12,14 @@ type Props = {
   subtitle?: string;
 };
 
-export function HeroCarousel({ images, title, bullets, primaryColor, secondaryColor, subtitle }: Props) {
+export function HeroCarousel({
+  images,
+  title,
+  bullets,
+  primaryColor,
+  secondaryColor,
+  subtitle,
+}: Props) {
   const safeImages = useMemo(() => images.filter(Boolean), [images]);
   const [index, setIndex] = useState(0);
   const current = safeImages[index] || '/congepan-banner-1.png';
@@ -39,16 +46,33 @@ export function HeroCarousel({ images, title, bullets, primaryColor, secondaryCo
     <section className="hero-visual-shell">
       <div className="hero-visual-card">
         <div className="hero-media-wrap">
-          <Image src={current} alt="Banner principal" fill priority sizes="(max-width: 900px) 100vw, 1200px" className="hero-media" />
+          <Image
+            src={current}
+            alt="Banner principal"
+            fill
+            priority
+            sizes="(max-width: 900px) 100vw, 1200px"
+            className="hero-media"
+          />
           <div className="hero-overlay" />
           <div className="hero-warm-glow" />
 
           {safeImages.length > 1 ? (
             <>
-              <button type="button" className="hero-arrow hero-arrow-left" onClick={previous} aria-label="Banner anterior">
+              <button
+                type="button"
+                className="hero-arrow hero-arrow-left"
+                onClick={previous}
+                aria-label="Banner anterior"
+              >
                 ‹
               </button>
-              <button type="button" className="hero-arrow hero-arrow-right" onClick={next} aria-label="Próximo banner">
+              <button
+                type="button"
+                className="hero-arrow hero-arrow-right"
+                onClick={next}
+                aria-label="Próximo banner"
+              >
                 ›
               </button>
             </>
@@ -58,26 +82,35 @@ export function HeroCarousel({ images, title, bullets, primaryColor, secondaryCo
             <div className="hero-kicker" style={{ color: secondaryColor }}>
               premium · congepan
             </div>
+
             <h1>{title}</h1>
+
             {subtitle ? <p className="hero-subtitle">{subtitle}</p> : null}
 
             {bullets.filter(Boolean).length ? (
               <div className="hero-bullets-panel">
                 {bullets.filter(Boolean).map((bullet) => (
                   <div className="hero-bullet" key={bullet}>
-                    <span className="hero-bullet-check" style={{ color: secondaryColor }}>✓</span>
+                    <span className="hero-bullet-check" style={{ color: secondaryColor }}>
+                      ✓
+                    </span>
                     <span>{bullet}</span>
                   </div>
                 ))}
               </div>
             ) : null}
-          </div>
 
-          <div className="hero-scroll-chip" style={{ borderColor: secondaryColor }}>
-            role para baixo
+            <div className="hero-scroll-wrap">
+              <span className="hero-scroll-icon">⌄</span>
+              <div className="hero-scroll-texts">
+                <strong>ROLE PARA BAIXO</strong>
+                <span>Conheça nossas soluções</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
       {safeImages.length > 1 ? (
         <div className="hero-dots" aria-label="Indicadores do carrossel">
           {safeImages.map((item, dotIndex) => (
