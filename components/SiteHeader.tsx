@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 type SiteHeaderProps = {
-  logoUrl?: string;
+  logoUrl?: string | null;
   brandName?: string;
   primaryColor?: string;
 };
@@ -36,32 +36,32 @@ export function SiteHeader({
     };
   }, [open]);
 
+  const finalLogo = logoUrl && logoUrl.trim() ? logoUrl : '/congepan-logo.png';
+
   return (
     <>
       <header className="site-header-shell">
         <div className="site-header">
-          <nav className="site-nav desktop-nav" aria-label="Navegação principal">
-            {navItems.map((item) => (
-              <a key={item.href} href={item.href} className="site-nav-link">
-                {item.label}
-              </a>
-            ))}
+          <nav className="desktop-nav-left" aria-label="Navegação principal esquerda">
+            <a href="#topo" className="site-nav-link">Início</a>
+            <a href="#linhas" className="site-nav-link">Linhas</a>
           </nav>
 
           <a href="#topo" className="site-logo-link" aria-label={brandName}>
-            {logoUrl ? (
-              <Image
-                src={logoUrl}
-                alt={brandName}
-                width={260}
-                height={110}
-                className="site-logo-image"
-                priority
-              />
-            ) : (
-              <span className="site-logo-text">{brandName}</span>
-            )}
+            <Image
+              src={finalLogo}
+              alt={brandName}
+              width={320}
+              height={120}
+              className="site-logo-image"
+              priority
+            />
           </a>
+
+          <nav className="desktop-nav-right" aria-label="Navegação principal direita">
+            <a href="#sobre" className="site-nav-link">Sobre</a>
+            <a href="#contato" className="site-nav-link">Contato</a>
+          </nav>
 
           <button
             type="button"
@@ -122,10 +122,9 @@ export function SiteHeader({
         .site-header {
           position: relative;
           display: grid;
-          grid-template-columns: 1fr auto;
+          grid-template-columns: 1fr auto 1fr;
           align-items: center;
-          justify-content: space-between;
-          gap: 16px;
+          gap: 20px;
           min-height: 96px;
           padding: 14px 20px;
           border-radius: 24px;
@@ -158,23 +157,23 @@ export function SiteHeader({
             );
         }
 
-        .site-header::before {
-          left: 12px;
-        }
+        .site-header::before { left: 12px; }
+        .site-header::after { right: 12px; }
 
-        .site-header::after {
-          right: 12px;
-        }
-
-        .desktop-nav {
-          display: none;
+        .desktop-nav-left,
+        .desktop-nav-right {
+          display: flex;
           align-items: center;
           gap: 18px;
           min-width: 0;
         }
 
-        .desktop-nav:first-of-type {
+        .desktop-nav-left {
           justify-content: flex-start;
+        }
+
+        .desktop-nav-right {
+          justify-content: flex-end;
         }
 
         .site-nav-link {
@@ -189,17 +188,6 @@ export function SiteHeader({
           padding: 8px 12px;
           border-radius: 12px;
           letter-spacing: 0.02em;
-        }
-
-        .site-nav-link::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          border-radius: 12px;
-          background: linear-gradient(135deg, ${primaryColor}, rgba(201, 138, 61, 0.6));
-          opacity: 0;
-          transition: opacity 0.3s ease;
-          z-index: -1;
         }
 
         .site-nav-link:hover {
@@ -217,7 +205,7 @@ export function SiteHeader({
           justify-content: center;
           text-decoration: none;
           min-width: 0;
-          padding: 8px 14px;
+          padding: 6px 10px;
           border-radius: 16px;
           transition: all 0.3s ease;
         }
@@ -228,7 +216,7 @@ export function SiteHeader({
         }
 
         .site-logo-image {
-          width: min(100%, 240px);
+          width: min(100%, 220px);
           height: auto;
           object-fit: contain;
           display: block;
@@ -240,64 +228,40 @@ export function SiteHeader({
           filter: drop-shadow(0 4px 8px rgba(201, 138, 61, 0.2));
         }
 
-        .site-logo-text {
-          font-size: 28px;
-          font-weight: 900;
-          letter-spacing: 0.04em;
-          color: ${primaryColor};
-          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
-        }
-
         .mobile-menu-button {
           display: none;
           justify-self: end;
-          position: relative;
-          z-index: 3;
-          width: 48px;
-          height: 48px;
+          position: absolute;
+          right: 12px;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 4;
+          width: 46px;
+          height: 46px;
           border-radius: 14px;
           border: 1px solid rgba(201, 138, 61, 0.32);
           background: rgba(255, 255, 255, 0.9);
-          box-shadow:
-            0 8px 20px rgba(47, 79, 31, 0.12),
-            inset 0 1px 0 rgba(255, 255, 255, 0.6);
+          box-shadow: 0 8px 18px rgba(47, 79, 31, 0.1);
           cursor: pointer;
           padding: 0;
-          transition: all 0.3s ease;
-        }
-
-        .mobile-menu-button:hover {
-          background: rgba(255, 255, 255, 0.95);
-          box-shadow:
-            0 10px 28px rgba(47, 79, 31, 0.15),
-            inset 0 1px 0 rgba(255, 255, 255, 0.8);
-          transform: translateY(-2px);
         }
 
         .mobile-menu-button span {
           position: absolute;
-          left: 13px;
-          right: 13px;
+          left: 11px;
+          right: 11px;
           height: 3px;
           border-radius: 999px;
           background: ${primaryColor};
-          transition: all 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+          transition: 0.25s ease;
         }
 
-        .mobile-menu-button span:nth-child(1) {
-          top: 16px;
-        }
-
-        .mobile-menu-button span:nth-child(2) {
-          top: 24px;
-        }
-
-        .mobile-menu-button span:nth-child(3) {
-          top: 32px;
-        }
+        .mobile-menu-button span:nth-child(1) { top: 14px; }
+        .mobile-menu-button span:nth-child(2) { top: 21px; }
+        .mobile-menu-button span:nth-child(3) { top: 28px; }
 
         .mobile-menu-button.is-open span:nth-child(1) {
-          top: 24px;
+          top: 21px;
           transform: rotate(45deg);
         }
 
@@ -306,7 +270,7 @@ export function SiteHeader({
         }
 
         .mobile-menu-button.is-open span:nth-child(3) {
-          top: 24px;
+          top: 21px;
           transform: rotate(-45deg);
         }
 
@@ -333,14 +297,13 @@ export function SiteHeader({
           height: 100vh;
           background:
             linear-gradient(180deg, #fffdf8 0%, #f6f1e7 100%);
-          box-shadow: -12px 0 40px rgba(0, 0, 0, 0.2);
+          box-shadow: -10px 0 30px rgba(0, 0, 0, 0.18);
           transform: translateX(100%);
-          transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+          transition: transform 0.28s ease;
           z-index: 61;
           padding: 22px 18px 28px;
           display: flex;
           flex-direction: column;
-          backdrop-filter: blur(10px);
         }
 
         .mobile-menu-panel.is-open {
@@ -384,36 +347,28 @@ export function SiteHeader({
           font-weight: 700;
           padding: 14px 16px;
           border-radius: 16px;
-          background: rgba(255, 255, 255, 0.82);
-          border: 1px solid rgba(201, 138, 61, 0.22);
-          transition: all 0.25s ease;
-          letter-spacing: 0.02em;
+          background: rgba(255, 255, 255, 0.78);
+          border: 1px solid rgba(201, 138, 61, 0.18);
         }
 
-        .mobile-nav-link:hover {
-          background: rgba(255, 255, 255, 0.92);
-          border-color: rgba(201, 138, 61, 0.38);
-          transform: translateX(4px);
-          box-shadow: 0 4px 12px rgba(201, 138, 61, 0.1);
-        }
-
-        @media (max-width: 860px) {
+        @media (max-width: 900px) {
           .site-header {
-            grid-template-columns: 1fr auto;
+            grid-template-columns: 1fr;
             min-height: 90px;
-            padding: 12px 16px;
+            padding: 12px 58px 12px 14px;
           }
 
-          .desktop-nav {
+          .desktop-nav-left,
+          .desktop-nav-right {
             display: none;
           }
 
           .mobile-menu-button {
-            display: flex;
+            display: block;
           }
 
           .site-logo-image {
-            width: min(100%, 170px);
+            width: min(100%, 150px);
           }
 
           .site-header::before,
@@ -424,13 +379,8 @@ export function SiteHeader({
             opacity: 0.12;
           }
 
-          .site-header::before {
-            left: 8px;
-          }
-
-          .site-header::after {
-            right: 8px;
-          }
+          .site-header::before { left: 8px; }
+          .site-header::after { right: 8px; }
         }
 
         @media (max-width: 520px) {
@@ -439,41 +389,11 @@ export function SiteHeader({
           }
 
           .site-header {
-            min-height: 90px;
             border-radius: 24px;
-            padding: 12px 14px;
           }
 
           .site-logo-image {
-            width: min(100%, 145px);
-          }
-
-          .mobile-menu-button {
-            width: 46px;
-            height: 46px;
-            border-radius: 14px;
-          }
-
-          .mobile-menu-button span {
-            left: 11px;
-            right: 11px;
-          }
-
-          .mobile-menu-button span:nth-child(1) {
-            top: 14px;
-          }
-
-          .mobile-menu-button span:nth-child(2) {
-            top: 21px;
-          }
-
-          .mobile-menu-button span:nth-child(3) {
-            top: 28px;
-          }
-
-          .mobile-menu-button.is-open span:nth-child(1),
-          .mobile-menu-button.is-open span:nth-child(3) {
-            top: 21px;
+            width: min(100%, 136px);
           }
         }
       `}</style>
